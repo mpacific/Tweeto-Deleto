@@ -28,7 +28,7 @@ Twitter.get_timeline().then((tweets) => {
       }).then((deletedTweet) => {
         console.log(`Deleted tweet: ${tweet.text} (ID ${tweet.id_str})`)
       }).catch((error) => {
-        console.log(`Could not delete tweet: ${tweet.text} (ID ${tweet.id_str}) - Reason: ${error}`)
+        console.error(`Could not delete tweet: ${tweet.text} (ID ${tweet.id_str}) - Reason: ${error}`)
       })
     })
   }
