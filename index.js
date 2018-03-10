@@ -11,7 +11,7 @@ Twitter.get_timeline().then((tweets) => {
     return
   }
 
-  console.log(`Totla tweets: ${tweets.length}`)
+  console.log(`Total tweets: ${tweets.length}`)
 
   let oldTweets = []
   _.forEach(tweets, (tweet) => {
