@@ -3,6 +3,8 @@ const Twitter = require('./lib/twitter')
 const _ = require('lodash')
 const Moment = require('moment')
 
+console.log(`Started tweet deleting at: ${new Moment().format()}`)
+
 Twitter.get_timeline().then((tweets) => {
   if (tweets.length === 0) {
     console.warn('No tweets found!')
