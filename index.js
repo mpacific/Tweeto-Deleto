@@ -2,6 +2,7 @@ require('dotenv').config()
 const Twitter = require('./lib/twitter')
 const _ = require('lodash')
 const Moment = require('moment')
+const Promise = require('bluebird')
 
 if (process.env.TWITTER_DELETE_TWEETS === 'true') {
   console.log(`Started tweet deleting at: ${new Moment().format()}`)
