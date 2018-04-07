@@ -65,7 +65,6 @@ if (process.env.TWITTER_DELETE_LIKES === 'true') {
         }).then((deletedLike) => {
           console.log(`Unliked: ${like.text} (ID ${like.id_str})`)
         }).catch((error) => {
-          console.error(like)
           console.error(`Could not unlike: ${like.text} (ID ${like.id_str}) - Reason: ${error}`)
         })
       })
