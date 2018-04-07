@@ -23,8 +23,8 @@ if (process.env.TWITTER_DELETE_TWEETS === 'true') {
 
     console.log(`Old tweets: ${oldTweets.length}`)
     if (oldTweets.length > 0) {
-      _.forEach(oldTweets, (tweet) => {
-        Twitter.request(`statuses/destroy/${tweet.id_str}`, 'POST', {
+      Promise.mapSeries(oldTweets, (tweet) => {
+        return Twitter.request(`statuses/destroy/${tweet.id_str}`, 'POST', {
           id: tweet.id_str
         }).then((deletedTweet) => {
           console.log(`Deleted tweet: ${tweet.text} (ID ${tweet.id_str})`)
@@ -58,8 +58,8 @@ if (process.env.TWITTER_DELETE_LIKES === 'true') {
 
     console.log(`Old likes: ${oldLikes.length}`)
     if (oldLikes.length > 0) {
-      _.forEach(oldLikes, (like) => {
-        Twitter.request(`favorites/destroy`, 'POST', {
+      Promise.mapSeries(oldLikes, (like) => {
+        return Twitter.request(`favorites/destroy`, 'POST', {
           id: like.id_str
         }).then((deletedLike) => {
           console.log(`Unliked: ${like.text} (ID ${like.id_str})`)
