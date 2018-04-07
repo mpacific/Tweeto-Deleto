@@ -52,7 +52,7 @@ if (process.env.TWITTER_DELETE_LIKES === 'true') {
 
     let oldLikes = []
     _.forEach(likes, (like) => {
-      if (new Moment().diff(new Moment(new Date(like.created_at)), 'days') >= process.env.LIKE_MAX_DAYS) {
+      if (like.favorited === true && new Moment().diff(new Moment(new Date(like.created_at)), 'days') >= process.env.LIKE_MAX_DAYS) {
         oldLikes.push(like)
       }
     })
@@ -65,6 +65,7 @@ if (process.env.TWITTER_DELETE_LIKES === 'true') {
         }).then((deletedLike) => {
           console.log(`Unliked: ${like.text} (ID ${like.id_str})`)
         }).catch((error) => {
+          console.error(like)
           console.error(`Could not unlike: ${like.text} (ID ${like.id_str}) - Reason: ${error}`)
         })
       })
