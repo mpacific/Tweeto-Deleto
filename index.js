@@ -39,6 +39,43 @@ if (process.env.TWITTER_DELETE_TWEETS === 'true') {
   })
 }
 
+if (process.env.TWITTER_DELETE_RETWEETS === 'true') {
+  console.log(`Started deleting retweets at: ${new Moment().format()}`)
+
+  Twitter.get_timeline().then(tweets => {
+    // filter out non-retweets
+    let retweets = tweets.filter(tweet => {
+      return typeof tweet.retweeted_status !== 'undefined'
+    })
+
+    if (retweets.length === 0) {
+      console.warn('No retweets found!')
+      return
+    }
+
+    console.log(`Total retweets: ${retweets.length}`)
+
+    let oldRetweets = retweets.filter(retweet => {
+      return new Moment().diff(new Moment(new Date(retweet.created_at)), 'days') >= process.env.RETWEET_MAX_DAYS
+    })
+
+    console.log(`Old retweets: ${oldRetweets.length}`)
+    if (oldRetweets.length > 0) {
+      Promise.mapSeries(oldRetweets, retweet => {
+        return Twitter.request(`statuses/destroy/${retweet.id_str}`, 'POST', {
+          id: retweet.id_str
+        }).then(deletedRetweet => {
+          console.log(`Deleted retweet: ${retweet.text} (ID ${retweet.id_str})`)
+        }).catch(error => {
+          console.error(`Could not delete retweet: ${retweet.text} (ID ${retweet.id_str}) - Reason: ${error}`)
+        })
+      })
+    }
+  }).catch((error) => {
+    console.error(`Retweet error: ${error}`)
+  })
+}
+
 if (process.env.TWITTER_DELETE_LIKES === 'true') {
   console.log(`Started unliking at: ${new Moment().format()}`)
 
