@@ -15,11 +15,15 @@ if (process.env.TWITTER_DELETE_TWEETS === 'true') {
 
     console.log(`Total tweets: ${tweets.length}`)
 
+    let tweetCounter = 0
     let oldTweets = []
     _.forEach(tweets, (tweet) => {
-      if (new Moment().diff(new Moment(new Date(tweet.created_at)), 'days') >= process.env.TWEET_MAX_DAYS) {
-        oldTweets.push(tweet)
+      if ((parseInt(process.env.MAX_TWEETS) && tweetCounter > parseInt(process.env.MAX_TWEETS)) || new Moment().diff(new Moment(new Date(tweet.created_at)), 'days') >= process.env.TWEET_MAX_DAYS) {
+        if (!parseInt(process.env.MIN_TWEETS) || (parseInt(process.env.MIN_TWEETS) && tweetCounter >= parseInt(process.env.MIN_TWEETS))) {
+          oldTweets.push(tweet)
+        }
       }
+      tweetCounter++
     })
 
     console.log(`Old tweets: ${oldTweets.length}`)

@@ -7,7 +7,7 @@ A script to run at a scheduled interval to delete your tweets, retweets, and lik
 
 ## Installation
 - `npm install`
-- Copy `.envSample` to `.env` and update the values appropriately. You can get most of these values by creating a Twitter app at https://apps.twitter.com/.
+- Copy `.envSample` to `.env` and update the values appropriately. You can get many of these values by creating a Twitter app at https://apps.twitter.com/.
 
 ## Running
 - `node index.js`
