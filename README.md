@@ -1,5 +1,5 @@
-# Node Delete Your Tweets
-A script to run at a scheduled interval to delete your tweets, retweets, and likes at a certain threshold. Work in progress.
+# Tweeto Deleto
+A node script to run at a scheduled interval to delete your tweets, retweets, and likes at a certain threshold. Work in progress.
 
 ## Notes
 - **This script performs a very permanent function of deleting tweets, retweets and/or unliking tweets after a defined time period. You cannot undo this!**
