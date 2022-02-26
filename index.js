@@ -5,6 +5,10 @@ const Moment = require('moment')
 const Promise = require('bluebird')
 
 if (process.env.TWITTER_DELETE_TWEETS === 'true') {
+  let tweetWhitelist = []
+  if (process.env.TWEET_WHITELIST) {
+    tweetWhitelist = process.env.TWEET_WHITELIST.split(',')
+  }
   console.log(`Started tweet deleting at: ${new Moment().format()}`)
 
   Twitter.get_timeline().then((tweets) => {
@@ -20,7 +24,9 @@ if (process.env.TWITTER_DELETE_TWEETS === 'true') {
     _.forEach(tweets, (tweet) => {
       if ((parseInt(process.env.MAX_TWEETS) && tweetCounter > parseInt(process.env.MAX_TWEETS)) || new Moment().diff(new Moment(new Date(tweet.created_at)), 'days') >= process.env.TWEET_MAX_DAYS) {
         if (!parseInt(process.env.MIN_TWEETS) || (parseInt(process.env.MIN_TWEETS) && tweetCounter >= parseInt(process.env.MIN_TWEETS))) {
-          oldTweets.push(tweet)
+          if (!tweetWhitelist.includes(tweet.id_str)) {
+            oldTweets.push(tweet)
+          }
         }
       }
       tweetCounter++
