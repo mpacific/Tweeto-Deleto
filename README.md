@@ -1,3 +1,5 @@
+## This project has been abandoned due to Twitter's new API price structure.
+
 # Tweeto Deleto
 A node script to run at a scheduled interval to delete your tweets, retweets, and likes at a certain threshold. Work in progress.
 
